@@ -1,1 +1,2 @@
-##### Navegando entre páginas no NextJS
+##### Entendendo StaticPaths na prática 1
+
