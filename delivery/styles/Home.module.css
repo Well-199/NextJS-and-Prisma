@@ -45,11 +45,24 @@
 }
 
 .menuButtonLine{
-    background-color: #FB9400;
+    background-color: #000;
     height: 2px;
 }
 
 .headerBotton {
 
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin: 0px 24px 0px 24px;
+}
+
+.card {
+    width: 178px;
+    height: 178px;
+    border: solid 1px black;
 }
 
