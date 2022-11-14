@@ -12,13 +12,13 @@
 }
 
 .subtitle {
+    width: 220px;
     font-weight: 400;
     font-size: 18px;
     line-height: 21px;
     color: rgba(27, 27, 27, 0.8);
     text-align: center;
     margin: auto;
-    width: 223px;
     padding-bottom: 40px;
     border-bottom: 1.5px solid #000;
     position: relative;
@@ -46,7 +46,6 @@
     color: #000;
     position: relative;
     padding-bottom: 62px;
-    border-bottom: 1.5px solid #000;
 }
 
 .link {
@@ -54,8 +53,4 @@
     text-decoration: none;
     color: #000;
     margin-left: 3px;
-}
-
-.signupArea {
-    margin-top: 62px;
 }

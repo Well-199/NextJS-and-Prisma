@@ -8,10 +8,10 @@ import { Header } from '../../components/Header'
 import { InputField } from '../../components/InputField'
 import { useAppContext } from '../../contexts/AppContext'
 import { useApi } from '../../libs/useApi'
-import styles from '../../styles/Login.module.css'
+import styles from '../../styles/SignUp.module.css'
 import { Tenant } from '../../types/Tenant'
 
-const Login = (data: Props) => {
+const SignUp = (data: Props) => {
 
 	// useContext inicia vazio o o objeto em data.tenant é inserido em useContext
 	const { tenant, setTenant } = useAppContext()
@@ -22,6 +22,7 @@ const Login = (data: Props) => {
 
 	const router = useRouter()
 
+    const [name, setName] = useState('')
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 
@@ -36,12 +37,12 @@ const Login = (data: Props) => {
 	return(
 		<div className={styles.container}>
             <Head>
-                <title>Login | { data.tenant.name }</title>
+                <title>Cadastro | { data.tenant.name }</title>
             </Head>
 
             <Header
                 color={data.tenant.mainColor}
-                backHref={`/${data.tenant.slug}`}
+                backHref={`/${data.tenant.slug}/login`}
             />
 
 			<div className={styles.header}>{data.tenant.name}</div>
@@ -49,12 +50,22 @@ const Login = (data: Props) => {
 			<div 
 				className={styles.subtitle}
 				style={{ borderBottomColor: data.tenant.mainColor }}
-			>Use suas credenciais para realizar o login.
+			>Preencha os campos para realizar o cadastro.
 			</div>
 
 			<div className={styles.line}></div>
 
 			<div className={styles.formArea}>
+
+                <div className={styles.inputArea}>
+					<InputField 
+						color={data.tenant.mainColor}
+						placeholder="Digite seu nome"
+						value={name}
+						onChange={setName}
+					/>
+				</div>
+
 				<div className={styles.inputArea}>
 					<InputField 
 						color={data.tenant.mainColor}
@@ -77,42 +88,28 @@ const Login = (data: Props) => {
 				<div className={styles.inputArea}>
 					<Button 
 						color={data.tenant.mainColor}
-						label="Entrar"
+						label="Cadastrar"
 						onClick={handleSubmit}
 						fill={true}
 					/>
 				</div>
 			</div>
 
-			<div 
-				className={styles.forgetArea}
-				style={{ borderBottomColor: data.tenant.mainColor }}
-			>
-				Esqueceu sua senha? 
+			<div className={styles.forgetArea}>
+				Já tem cadastro? 
 				<Link 
-					className={styles.link} href={`/${data.tenant.slug}/forget`}
+					className={styles.link} href={`/${data.tenant.slug}/login`}
 					style={{ color: data.tenant.mainColor }}
 				>
-					Clique aqui
+					Fazer Login
 				</Link>
-			</div>
-
-			<div className={styles.line}></div>
-
-			<div className={styles.signupArea}>
-				<Button 
-					color={data.tenant.mainColor}
-					label="Quero me cadastrar"
-					onClick={handleSignUp}
-					fill={false}
-				/>
 			</div>
 
 		</div>
   	)
 }
 
-export default Login
+export default SignUp
 
 type Props = {
 	tenant: Tenant
