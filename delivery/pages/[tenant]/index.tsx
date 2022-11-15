@@ -1,11 +1,12 @@
 import { GetServerSideProps } from 'next'
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Banner } from '../../components/Banner'
 import { ProductItem } from '../../components/ProductItem'
 import { SearchInput } from '../../components/SearchInput'
 import { useAppContext } from '../../contexts/AppContext'
 import { useApi } from '../../libs/useApi'
 import styles from '../../styles/Home.module.css'
+import { Product } from '../../types/Product'
 import { Tenant } from '../../types/Tenant'
 
 const Home = (data: Props) => {
@@ -16,6 +17,8 @@ const Home = (data: Props) => {
 	useEffect(() => {
 		setTenant(data.tenant)
 	}, [])
+
+	const [products, setProducts] = useState<Product[]>(data.products)
 
 	const handleSearch = (searchValue: string) => {
 		console.log(`Voçe esta buscando por ${searchValue}`)
@@ -47,25 +50,19 @@ const Home = (data: Props) => {
 			<Banner />
 
 			<div className={styles.grid}>
-				<ProductItem 
-					data={{
-						id: 1,
-						image: '/tmp/burger3.png',
-						categoryName: 'Tradicional',
-						name: 'Texas Burger',
-						price: 'R$ 25,50'
-					}}
-				/>
 
-				<ProductItem 
-					data={{
-						id: 2,
-						image: '/tmp/burger3.png',
-						categoryName: 'Tradicional',
-						name: 'Texas Burger',
-						price: 'R$ 25,50'
-					}}
-				/>
+				{products.map((item, index) => (
+					<ProductItem 
+						key={index}
+						data={{
+							id: item.id,
+							image: item.image,
+							categoryName: item.categoryName,
+							name: item.name,
+							price: item.price
+						}}
+					/>
+				))}
 				
 			</div>
 		</div>
@@ -75,7 +72,8 @@ const Home = (data: Props) => {
 export default Home
 
 type Props = {
-	tenant: Tenant
+	tenant: Tenant,
+	products: Product[]
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -83,10 +81,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	// PEGA O NOME DO COMÉRCIO NA URL 
 	const { tenant: tenantSlug } = context.query
 
-	const api = useApi()
+	const api = useApi(tenantSlug as string)
 
 	// GET TENANT SÓ RETORNA A PAGINA SE ENCONTRAR O COMÉCIO CADASTRADO
-	const tenant = await api.getTenant(tenantSlug as string)
+	const tenant = await api.getTenant()
 
 	// SE NÃO ENCONTRAR O COMÉCIO CADASTRADO REDIRECIONA PARA PAGINA INICIAL
 	if(!tenant){
@@ -98,10 +96,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		}
 	}
 
+	// Retorna os produtos
+	const products = await api.getAllProducts()
+
 	// o objeto props é retornado para essa mesma tela Home em (data:  Props)
 	return {
 		props: {
-			tenant: tenant
+			tenant: tenant,
+			products: products
 		}
 	}
 

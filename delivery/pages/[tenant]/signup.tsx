@@ -37,7 +37,7 @@ const SignUp = (data: Props) => {
 	return(
 		<div className={styles.container}>
             <Head>
-                <title>Cadastro | { data.tenant.name }</title>
+                <title>Cadastro</title>
             </Head>
 
             <Header

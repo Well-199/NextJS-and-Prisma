@@ -1,9 +1,21 @@
+import { Product } from "../types/Product";
 import { Tenant } from "../types/Tenant"
 
-export const useApi = () => ({
+const TEMPORARYoneProduct: Product = {
+    id: 2,
+	image: '/tmp/burger3.png',
+	categoryName: 'Tradicional',
+	name: 'Texas Burger',
+	price: 25.50,
+    description: `2 Blends de carne de 150g, Queijo Cheddar,
+    Bacon Caramelizado, Salada, Molho da casa,
+    Pão brioche artesanal,`
+}
+
+export const useApi = (tenantSlug: string) => ({
 
     // retorna false type boolean ou retorna os dado types getTanantResponse 
-    getTenant: (tenantSlug: string): boolean | Tenant  => {
+    getTenant: async () => {
 
         switch(tenantSlug) {
 
@@ -37,6 +49,21 @@ export const useApi = () => ({
             default: return false
         }
 
+    },
+
+    getAllProducts: async () => {
+        
+        let products = []
+
+        for(let i = 0; i < 10; i++){
+            products.push(TEMPORARYoneProduct)
+        }
+
+        return products
+    },
+
+    getProduct: async (id: string) => {
+        return TEMPORARYoneProduct
     }
 
 })
