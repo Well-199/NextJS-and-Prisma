@@ -1,0 +1,29 @@
+.conatiner {
+    background-color: #FFF;
+}
+
+.headerArea {
+    position: absolute;
+    left: 24px;
+    top: 64px;
+    right: 24px;
+}
+
+.headerBg {
+    height: 350px;
+    background-color: #333;
+    background-image: url('/assets/product-bg.png');
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+
+.productImage {
+    text-align: center;
+    margin-top: -200px;
+}
+
+.productImage img { 
+    width: auto;
+    max-width: 319px;
+    height: 282px;
+}

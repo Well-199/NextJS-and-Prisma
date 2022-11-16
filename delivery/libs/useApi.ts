@@ -3,7 +3,7 @@ import { Tenant } from "../types/Tenant"
 
 const TEMPORARYoneProduct: Product = {
     id: 2,
-	image: '/tmp/burger3.png',
+	image: '/tmp/Golden-Burger.png',
 	categoryName: 'Tradicional',
 	name: 'Texas Burger',
 	price: 25.50,
@@ -23,7 +23,7 @@ export const useApi = (tenantSlug: string) => ({
                 return {
                     slug: 'delivery',
                     name: 'Best Burger Well',
-                    mainColor: '#D35400',
+                    mainColor: '#FB9400',
                     secondColor: '#E67E22'
                 }
             break;

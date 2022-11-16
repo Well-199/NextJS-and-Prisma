@@ -123,10 +123,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	// PEGA O NOME DO COMÉRCIO NA URL 
 	const { tenant: tenantSlug } = context.query
 
-	const api = useApi()
+	const api = useApi(tenantSlug as string)
 
 	// GET TENANT SÓ RETORNA A PAGINA SE ENCONTRAR O COMÉCIO CADASTRADO
-	const tenant = await api.getTenant(tenantSlug as string)
+	const tenant = await api.getTenant()
 
 	// SE NÃO ENCONTRAR O COMÉCIO CADASTRADO REDIRECIONA PARA PAGINA INICIAL
 	if(!tenant){
