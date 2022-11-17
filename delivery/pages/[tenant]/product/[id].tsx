@@ -20,7 +20,7 @@ const Product = (data: Props) => {
 		setTenant(data.tenant)
 	}, [])
 
-	const [qtCount, setQtCount] = useState(0)
+	const [qtCount, setQtCount] = useState(1)
 
 	const formatter = useFormatter()
 
@@ -77,7 +77,8 @@ const Product = (data: Props) => {
 						count={qtCount}
 						onUpdateCount={handleUpdateQt}
 						min={1}
-						max={10}
+						max={0}
+						small={false}
 					/>
 				</div>
 				<div 

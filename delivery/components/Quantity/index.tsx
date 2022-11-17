@@ -8,9 +8,10 @@ type Props = {
     onUpdateCount: (newCount: number) => void
     min?: number
     max?: number
+    small?: boolean
 }
 
-export const Quantity = ({ color, count, onUpdateCount, min, max }: Props) => {
+export const Quantity = ({ color, count, onUpdateCount, min, max, small }: Props) => {
 
     const formatter = useFormatter()
 
@@ -37,16 +38,28 @@ export const Quantity = ({ color, count, onUpdateCount, min, max }: Props) => {
                 onClick={handleRemove}
                 style={{
                     color: canRemove ? '#FFF' : '#96A3AB',
-                    backgroundColor: canRemove ? color : '#F2F4F5'
+                    backgroundColor: canRemove ? color : '#F2F4F5',
+                    width: small ? 42 : 48,
+                    height: small ? 42 : 48
                 }}
             >-</div>
-            <div className={styles.qt} style={{ color: color }}>{formatter.formatQuantity(count, 1)}</div>
+            <div 
+                className={styles.qt} 
+                style={{ 
+                    color: color,
+                    fontSize: small ? 16 : 18
+                }}
+            >
+                {formatter.formatQuantity(count, 1)}
+            </div>
             <div 
                 className={styles.button}
                 onClick={handleAdd}
                 style={{
                     color: canAdd ? '#FFF' : '#96A3AB',
-                    backgroundColor: canAdd ? color : '#F2F4F5'
+                    backgroundColor: canAdd ? color : '#F2F4F5',
+                    width: small ? 42 : 48,
+                    height: small ? 42 : 48
                 }}
             >+</div>
         </div>
