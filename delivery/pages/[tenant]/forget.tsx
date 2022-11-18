@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import { Button } from '../../components/Button'
 import { Header } from '../../components/Header'
 import { InputField } from '../../components/InputField'
-import { useAppContext } from '../../contexts/AppContext'
+import { useAppContext } from '../../contexts/app'
 import { useApi } from '../../libs/useApi'
 import styles from '../../styles/Forget.module.css'
 import { Tenant } from '../../types/Tenant'
@@ -87,10 +87,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	// PEGA O NOME DO COMÉRCIO NA URL 
 	const { tenant: tenantSlug } = context.query
 
-	const api = useApi()
+	const api = useApi(tenantSlug as string)
 
 	// GET TENANT SÓ RETORNA A PAGINA SE ENCONTRAR O COMÉCIO CADASTRADO
-	const tenant = await api.getTenant(tenantSlug as string)
+	const tenant = await api.getTenant()
 
 	// SE NÃO ENCONTRAR O COMÉCIO CADASTRADO REDIRECIONA PARA PAGINA INICIAL
 	if(!tenant){
