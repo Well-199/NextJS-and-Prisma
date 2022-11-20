@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { useAuthContext } from '../../contexts/auth'
 import { Tenant } from '../../types/Tenant'
 import { Button } from '../Button'
@@ -13,6 +14,7 @@ type Props = {
 export const Sidebar = ({ tenant, open, onClose }: Props) => {
 
     const { user } = useAuthContext()
+    const router = useRouter()
 
     return(
         <div 
@@ -34,7 +36,7 @@ export const Sidebar = ({ tenant, open, onClose }: Props) => {
                             <Button 
                                 color={tenant.mainColor}
                                 label="Fazer Login"
-                                onClick={() => {}}
+                                onClick={() => router.push(`/${tenant.slug}/login`)}
                                 fill={true}
                             />
                         }
@@ -48,13 +50,63 @@ export const Sidebar = ({ tenant, open, onClose }: Props) => {
                 </div>
                 <div className={styles.line}></div>
                 <div className={styles.menu}>
+                    
                     <SideBarMenuItem 
                         color={'#6A7D8B'}
                         icon="menu"
                         label="Cardápio"
                         onClick={() => {}}
+                        disabled={false}
                     />
+
+                    <SideBarMenuItem 
+                        color={'#6A7D8B'}
+                        icon="cart"
+                        label="Sacola"
+                        onClick={() => {}}
+                        disabled={false}
+                    />
+
+                    <SideBarMenuItem 
+                        color={'#6A7D8B'}
+                        icon="fav"
+                        label="Favoritos"
+                        onClick={() => {}}
+                        disabled={true}
+                    />
+
+                    <SideBarMenuItem 
+                        color={'#6A7D8B'}
+                        icon="order"
+                        label="Meus Pedidos"
+                        onClick={() => {}}
+                        disabled={false}
+                    />
+
+                    <SideBarMenuItem 
+                        color={'#6A7D8B'}
+                        icon="config"
+                        label="Configurações"
+                        onClick={() => {}}
+                        disabled={true}
+                    />
+
                 </div>
+
+                {user && 
+                    <div className={styles.menuButton}>
+
+                        <SideBarMenuItem 
+                            color={'#6A7D8B'}
+                            icon="logout"
+                            label="Sair"
+                            onClick={() => {}}
+                            disabled={false}
+                        />
+
+                    </div>
+                }
+
             </div>
         </div>
     )

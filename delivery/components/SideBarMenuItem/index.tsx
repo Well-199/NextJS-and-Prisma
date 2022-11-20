@@ -11,19 +11,27 @@ type Props = {
     label: string
     icon: 'menu' | 'config' | 'fav' | 'logout' | 'cart' | 'order'
     onClick: () => void
+    disabled?: boolean
 }
 
-export const SideBarMenuItem = ({ color, label, icon, onClick }: Props) => {
+export const SideBarMenuItem = ({ color, label, icon, onClick, disabled }: Props) => {
 
     return(
         <div className={styles.container} onClick={onClick}>
+
             { icon === 'menu' && <MenuIcon color={color} /> }
-            { icon === 'config' && <ConfigIcon color={color} /> }
-            { icon === 'fav' && <FavIcon color={color} /> }
-            { icon === 'logout' && <LogoutIcon color={color} /> }
+
             { icon === 'cart' && <CartIcon color={color} /> }
+
+            { icon === 'fav' && <FavIcon color={color} /> }
+
             { icon === 'order' && <OrderIcon color={color} /> }
-            <span>{ label }</span>
+
+            { icon === 'config' && <ConfigIcon color={color} /> }
+            
+            { icon === 'logout' && <LogoutIcon color={color} /> }
+            
+            <span className={disabled ? styles.disabled : ''}>{ label }</span>
         </div>
     )
 }
