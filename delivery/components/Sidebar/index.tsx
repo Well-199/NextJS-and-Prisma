@@ -13,7 +13,7 @@ type Props = {
 
 export const Sidebar = ({ tenant, open, onClose }: Props) => {
 
-    const { user } = useAuthContext()
+    const { user, setToken } = useAuthContext()
     const router = useRouter()
 
     return(
@@ -55,7 +55,7 @@ export const Sidebar = ({ tenant, open, onClose }: Props) => {
                         color={'#6A7D8B'}
                         icon="menu"
                         label="Cardápio"
-                        onClick={() => {}}
+                        onClick={onClose}
                         disabled={false}
                     />
 
@@ -63,7 +63,7 @@ export const Sidebar = ({ tenant, open, onClose }: Props) => {
                         color={'#6A7D8B'}
                         icon="cart"
                         label="Sacola"
-                        onClick={() => {}}
+                        onClick={() => router.push(`${tenant.slug}/cart`)}
                         disabled={false}
                     />
 
@@ -72,14 +72,14 @@ export const Sidebar = ({ tenant, open, onClose }: Props) => {
                         icon="fav"
                         label="Favoritos"
                         onClick={() => {}}
-                        disabled={true}
+                        disabled={user ? false : true}
                     />
 
                     <SideBarMenuItem 
                         color={'#6A7D8B'}
                         icon="order"
                         label="Meus Pedidos"
-                        onClick={() => {}}
+                        onClick={() => router.push(`/${tenant.slug}/orders`)}
                         disabled={false}
                     />
 
@@ -88,7 +88,7 @@ export const Sidebar = ({ tenant, open, onClose }: Props) => {
                         icon="config"
                         label="Configurações"
                         onClick={() => {}}
-                        disabled={true}
+                        disabled={user ? false : true}
                     />
 
                 </div>
@@ -100,7 +100,10 @@ export const Sidebar = ({ tenant, open, onClose }: Props) => {
                             color={'#6A7D8B'}
                             icon="logout"
                             label="Sair"
-                            onClick={() => {}}
+                            onClick={() => {
+                                setToken('')
+                                onClose()
+                            }}
                             disabled={false}
                         />
 

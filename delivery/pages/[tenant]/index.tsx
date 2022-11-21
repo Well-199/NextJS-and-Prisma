@@ -1,3 +1,4 @@
+import { getCookie } from 'cookies-next'
 import { GetServerSideProps } from 'next'
 import { useState, useEffect } from 'react'
 import { Banner } from '../../components/Banner'
@@ -5,18 +6,28 @@ import { ProductItem } from '../../components/ProductItem'
 import { SearchInput } from '../../components/SearchInput'
 import { Sidebar } from '../../components/Sidebar'
 import { useAppContext } from '../../contexts/app'
+import { useAuthContext } from '../../contexts/auth'
 import { useApi } from '../../libs/useApi'
 import styles from '../../styles/Home.module.css'
 import { Product } from '../../types/Product'
 import { Tenant } from '../../types/Tenant'
+import { User } from '../../types/User'
 
 const Home = (data: Props) => {
+
+	const { setToken, setUser } = useAuthContext()
 
 	// useContext inicia vazio o o objeto em data.tenant é inserido em useContext
 	const { tenant, setTenant } = useAppContext()
 
 	useEffect(() => {
 		setTenant(data.tenant)
+		setToken(data.token)
+
+		if(data.user) {
+			setUser(data.user)
+		}
+		
 	}, [])
 
 	const [products, setProducts] = useState<Product[]>(data.products)
@@ -82,8 +93,10 @@ const Home = (data: Props) => {
 export default Home
 
 type Props = {
-	tenant: Tenant,
+	tenant: Tenant
 	products: Product[]
+	token: string
+	user: User | null
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -106,6 +119,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		}
 	}
 
+	// Pega dados do usuario logado
+	const token = getCookie('token', context)
+	const user = await api.authorizeToken(token as string)
+
 	// Retorna os produtos
 	const products = await api.getAllProducts()
 
@@ -113,7 +130,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	return {
 		props: {
 			tenant: tenant,
-			products: products
+			products: products,
+			user: user,
+			token: token
 		}
 	}
 
