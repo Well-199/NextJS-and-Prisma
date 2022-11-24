@@ -21,8 +21,9 @@ const Home = (data: Props) => {
 	const { tenant, setTenant } = useAppContext()
 
 	useEffect(() => {
+
 		setTenant(data.tenant)
-		setToken(data.token)
+		setToken(data.token)		
 
 		if(data.user) {
 			setUser(data.user)
@@ -30,12 +31,29 @@ const Home = (data: Props) => {
 		
 	}, [])
 
+	const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
 	const [products, setProducts] = useState<Product[]>(data.products)
 	const [sidebarOpen, setSidebarOpen] = useState(false)
+	const [searchText, setSearchText] = useState('')
 
 	const handleSearch = (searchValue: string) => {
-		console.log(`Voçe esta buscando por ${searchValue}`)
+		setSearchText(searchValue)
 	}
+
+	useEffect(() => {
+
+		let newFilteredProducts: Product[] = []
+
+		for(let product of data.products){
+			if(product.name.toLowerCase().indexOf(searchText.toLowerCase()) > -1){
+				newFilteredProducts.push(product)
+			}
+		}
+
+		// um novo array filtrado somente com os valores encontrados na busca
+		setFilteredProducts(newFilteredProducts)
+
+	}, [searchText])
 
 	return(
 		<div className={styles.container}>
@@ -121,6 +139,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	// Pega dados do usuario logado
 	const token = getCookie('token', context)
+	
 	const user = await api.authorizeToken(token as string)
 
 	// Retorna os produtos
@@ -131,8 +150,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 		props: {
 			tenant: tenant,
 			products: products,
-			user: user,
-			token: token
+			//user: user,
+			//token: token
 		}
 	}
 
