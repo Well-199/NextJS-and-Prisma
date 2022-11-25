@@ -12,6 +12,7 @@ import styles from '../../styles/Home.module.css'
 import { Product } from '../../types/Product'
 import { Tenant } from '../../types/Tenant'
 import { User } from '../../types/User'
+import NoItemsIcon from '../../public/assets/noitems.svg' 
 
 const Home = (data: Props) => {
 
@@ -86,24 +87,62 @@ const Home = (data: Props) => {
 				</div>
 			</header>
 
-			<Banner />
+			{searchText && 
+			<>
+				<div className={styles.searchText}>
+					Procurando por: <strong>{searchText}</strong>
+				</div>
 
-			<div className={styles.grid}>
+				{filteredProducts.length > 0 &&
+					<div className={styles.grid}>
+						{filteredProducts.map((item, index) => (
+							<ProductItem 
+								key={index}
+								data={{
+									id: item.id,
+									image: item.image,
+									categoryName: item.categoryName,
+									name: item.name,
+									price: item.price
+								}}
+							/>
+						))}
+					</div>
+				}
 
-				{products.map((item, index) => (
-					<ProductItem 
-						key={index}
-						data={{
-							id: item.id,
-							image: item.image,
-							categoryName: item.categoryName,
-							name: item.name,
-							price: item.price
-						}}
-					/>
-				))}
-				
-			</div>
+				{filteredProducts.length === 0 &&
+					<div className={styles.noProducts}>
+						<NoItemsIcon color="#E0E0E0"/>
+						<div className={styles.noProductsText}>
+							Ops! Não há itens com este nome
+						</div>
+					</div>
+				}
+			</>
+			}
+
+			{!searchText &&
+			<>
+				<Banner />
+
+				<div className={styles.grid}>
+
+					{products.map((item, index) => (
+						<ProductItem 
+							key={index}
+							data={{
+								id: item.id,
+								image: item.image,
+								categoryName: item.categoryName,
+								name: item.name,
+								price: item.price
+							}}
+						/>
+					))}
+					
+				</div>
+			</>
+			}
 		</div>
   	)
 }
