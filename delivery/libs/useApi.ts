@@ -57,7 +57,10 @@ export const useApi = (tenantSlug: string) => ({
         let products = []
 
         for(let i = 0; i < 10; i++){
-            products.push(TEMPORARYoneProduct)
+            products.push({
+                ...TEMPORARYoneProduct,
+                id: i + 1
+            })
         }
 
         return products

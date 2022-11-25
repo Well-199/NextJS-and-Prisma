@@ -1,3 +1,4 @@
+import { getCookie, hasCookie } from 'cookies-next'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import { useState, useEffect } from 'react'
@@ -8,6 +9,7 @@ import { useAppContext } from '../../../contexts/app'
 import { useApi } from '../../../libs/useApi'
 import { useFormatter } from '../../../libs/useFormatter'
 import styles from '../../../styles/Product-id.module.css'
+import { CartCookie } from '../../../types/CartCookie'
 import { Product } from '../../../types/Product'
 import { Tenant } from '../../../types/Tenant'
 
@@ -25,6 +27,24 @@ const Product = (data: Props) => {
 	const formatter = useFormatter()
 
 	const handleAddToCart = () => {
+
+		let cart: CartCookie[] = []
+
+		// verifica se existe itens no carrinho
+		if(hasCookie('cart')){
+			const cartCookie = getCookie('cart')
+			const cartJson: CartCookie[] = JSON.parse(cartCookie as string)
+			
+			for(let i in cartJson){
+
+				if(cartJson[i].qt && cartJson[i].id){
+					cart.push(cartJson[i])
+				}
+
+			}
+		}
+
+		// Procura um item no carrinho
 
 	}
 
