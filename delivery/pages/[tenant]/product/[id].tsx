@@ -1,6 +1,7 @@
-import { getCookie, hasCookie } from 'cookies-next'
+import { getCookie, hasCookie, setCookie } from 'cookies-next'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import { Button } from '../../../components/Button'
 import { Header } from '../../../components/Header'
@@ -22,9 +23,9 @@ const Product = (data: Props) => {
 		setTenant(data.tenant)
 	}, [])
 
-	const [qtCount, setQtCount] = useState(1)
-
+	const router = useRouter()
 	const formatter = useFormatter()
+	const [qtCount, setQtCount] = useState(1)
 
 	const handleAddToCart = () => {
 
@@ -45,6 +46,21 @@ const Product = (data: Props) => {
 		}
 
 		// Procura um item no carrinho
+		const cartIndex = cart.findIndex(item => item.id === data.product.id)
+
+		if(cartIndex > 1){
+			cart[cartIndex].qt += qtCount
+		} else {
+			cart.push({ id: data.product.id, qt: qtCount})
+		}
+
+		console.log(cart)
+
+		// setting cookie
+		setCookie('cart', JSON.stringify(cart))
+
+		// going to cart
+		router.push(`/${data.tenant.slug}/cart`)
 
 	}
 
@@ -150,7 +166,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	}
 
 	// RETORNA UM PRODUTO 
-	const product = await api.getProduct(id as string)
+	const product = await api.getProduct(parseInt(id as string))
 
 	// o objeto props é retornado para essa mesma tela Home em (data:  Props)
 	return {
