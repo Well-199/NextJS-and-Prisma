@@ -1,0 +1,13 @@
+.container {
+    background-color: #FFF;
+    padding: 50px 24px;
+}
+
+.productsQuantity {
+    border-top: 1.5px solid rgba(27, 27, 27, 0.1);
+    border-bottom: 1.5px solid rgba(27, 27, 27, 0.1);
+    padding: 19px 0;
+    font-weight: 400;
+    font-size: 16px;
+    color: #1B1B1B;
+}
