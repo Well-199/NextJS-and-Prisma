@@ -5,7 +5,17 @@ const handler: NextApiHandler = (req, res) => {
 
     const { id } = req.query
 
-    res.json(Users)
+    let myUser = null
+
+    for(let i in Users){
+        if(Users[i].id.toString() === id){
+            myUser = Users[i]
+            res.json(myUser)
+            return
+        }
+    }
+
+    res.json({ error: 'Usuário não encontrado' })
 }
 
 export default handler
